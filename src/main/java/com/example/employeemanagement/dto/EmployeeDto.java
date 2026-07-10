@@ -1,5 +1,6 @@
 package com.example.employeemanagement.dto;
 
+import com.example.employeemanagement.annotations.EmployeeValidations;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -25,11 +26,12 @@ public class EmployeeDto {
     private Integer age;
 
     @NotBlank(message = "Role cannnot be blank")
-    @Pattern(regexp = "^(ADMIN|USER)$", message = "The role of Employee should be ADMIN or USER")
+    @EmployeeValidations
     private String Role;
 
     @NotNull(message = "Salary should be not null ") @Positive(message = "Salary of Employee should be positive ")
-    private Integer Salary;
+    @Digits(integer = 10, fraction = 2, message = "Salary should have at most 10 digits and 2 decimal places")
+    private Double Salary;
 
     private LocalDate dateOfJoining;
     private boolean isActive;

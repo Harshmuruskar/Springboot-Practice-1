@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 
+import java.lang.module.ResolutionException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,8 @@ public class EmployeeService {
     }
 
     public EmployeeDto updateEmployee(EmployeeDto employeeDto, Long id) {
+        boolean exists = existsByEmployeeId(id);
+        if(!exists) throw new ResolutionException("Employee not found " + id );
         EmployeeEntity employeeEntity = modelMapper.map(employeeDto, EmployeeEntity.class);
         employeeEntity.setId(id);
         EmployeeEntity savedEntity=employeeRepository.save(employeeEntity);
