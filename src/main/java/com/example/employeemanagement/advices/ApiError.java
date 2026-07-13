@@ -1,4 +1,4 @@
-package com.example.employeemanagement.exceptions;
+package com.example.employeemanagement.advices;
 
 import lombok.Builder;
 import lombok.Data;
