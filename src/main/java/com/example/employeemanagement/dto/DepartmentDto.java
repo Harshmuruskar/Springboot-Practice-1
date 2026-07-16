@@ -5,8 +5,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-public class DepartmentDto {
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DepartmentDto {
     private Long id;
     @NotBlank(message = "Title is requied")
     private String title;

@@ -29,6 +29,30 @@ public class DepartmentService {
 
     public Optional<DepartmentDto> getDepartmentById(Long id) {
         return departmentRepository.findById(id).map(department -> modelMapper.map(department, DepartmentDto.class));
+    }
 
+    public DepartmentDto createDepartment(DepartmentDto departmentDto) {
+        Department department = modelMapper.map(departmentDto, Department.class);
+        if (department.getCreatedAt() == null) {
+            department.setCreatedAt(java.time.LocalDateTime.now());
+        }
+        Department savedDepartment = departmentRepository.save(department);
+        return modelMapper.map(savedDepartment, DepartmentDto.class);
+    }
+
+    public DepartmentDto updateDepartment(Long id, DepartmentDto departmentDto) {
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
+        department.setTitle(departmentDto.getTitle());
+        department.setActive(departmentDto.isActive());
+        Department updatedDepartment = departmentRepository.save(department);
+        return modelMapper.map(updatedDepartment, DepartmentDto.class);
+    }
+
+    public void deleteDepartment(Long id) {
+        if (!departmentRepository.existsById(id)) {
+            throw new RuntimeException("Department not found with id: " + id);
+        }
+        departmentRepository.deleteById(id);
     }
 }
